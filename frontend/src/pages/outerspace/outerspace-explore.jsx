@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Pioneer10 from '../../components/outerspace/Pioneer10';
 import Pioneer11 from '../../components/outerspace/Pioneer11';
+import Voyager1 from '../../components/outerspace/Voyager-1';
+import Voyager2 from '../../components/outerspace/Voyager-2';
 
 const OuterSpaceExplore = () => {
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ const OuterSpaceExplore = () => {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-16 md:py-24">
         <Pioneer10 />
         <Pioneer11 />
+        <Voyager1 />
+        <Voyager2 />
       </div>
     </main>
   );
