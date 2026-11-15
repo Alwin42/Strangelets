@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SoftAurora from '../components/SoftAurora';
 import Hyperspeed from '../components/Hyperspeed';
+import SpecularButton from '../components/SpecularButton';
+import Particles from '../components/Particles';
 import { AiLoader } from '../components/ui/ai-loader';
 
 const LandingPage = () => {
@@ -125,7 +127,7 @@ const LandingPage = () => {
           />
           <div className="warp-hud">
             <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-[0.14em] uppercase bg-[#00105B]/85 text-[#C9B5E0] border border-[#6061B6] rounded-full">
-              Hyperspeed Engaged
+              Hold tightly
             </span>
             <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] text-[#FCF9EC] drop-shadow-[0_0_25px_rgba(96,97,182,0.9)]">
               Warping to {warpTarget.label}...
@@ -165,12 +167,33 @@ const LandingPage = () => {
           />
         </div>
 
+        {/* Particles: subtle starfield layer behind the hero content */}
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Particles
+            particleCount={200}
+            particleSpread={10}
+            speed={0.1}
+            particleColors={['#6061B6', '#C9B5E0', '#FCF9EC']}
+            particleBaseSize={50}
+            sizeRandomness={1}
+            cameraDistance={30}
+            glow={2.35}
+            twinkle={0.4}
+            drift="up"
+            driftSpeed={0.4}
+            opacity={0.75}
+            connections
+            connectionDistance={0}
+            hoverEffect="parallax"
+            hoverRadius={100}
+            clickBurst
+            intro
+          />
+        </div>
+
         {/* Hero Content: centered, padded, max-width constrained */}
         <div className="relative z-10 max-w-[880px] w-full text-center flex flex-col items-center px-4">
-          {/* Badge Pill */}
-          <span className="inline-block px-4 py-1.5 mb-5 text-xs font-bold tracking-[0.14em] uppercase bg-[#00105B]/85 text-[#C9B5E0] border border-[#6061B6] rounded-full">
-            Interactive Space Museum
-          </span>
+          
           
           {/* Title */}
           <h1 className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-extrabold mb-6 text-[#FCF9EC] leading-tight">
@@ -186,13 +209,21 @@ const LandingPage = () => {
           </p>
 
           {/* ✅ Explore Now Button: Navigates to /explore */}
-          <button 
+          <SpecularButton
             onClick={handleExploreClick}
-            className="group relative inline-flex items-center gap-2 px-8 py-3 bg-[#00105B] text-[#FCF9EC] border border-[#6061B6] rounded-full font-bold text-sm uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-[#C9B5E0] hover:text-black hover:border-[#FCF9EC] hover:scale-105 hover:shadow-[0_0_25px_rgba(96,97,182,0.6)] active:scale-95 cursor-pointer"
+            size="lg"
+            tint="#00105B"
+            tintOpacity={0.55}
+            textColor="#FCF9EC"
+            lineColor="#C9B5E0"
+            baseColor="#00105B"
+            intensity={1}
+            idleIntensity={0.4}
+            className="uppercase tracking-widest"
           >
             <span>Explore Now</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
+            <span className="ml-1">→</span>
+          </SpecularButton>
         </div>
       </section>
     </main>

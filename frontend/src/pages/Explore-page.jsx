@@ -100,9 +100,32 @@ const ExplorePage = () => {
     }, 2400);
   };
 
+  const handleOuterSpaceClick = () => {
+    setWarpTarget({ path: '/outerspace', label: 'Outer Space' });
+    setTimeout(() => {
+      navigate('/outerspace');
+    }, 2400);
+  };
+
   return (
-    // ✅ Plain black background — no more radial gradient
+    
     <main className="relative w-full h-screen bg-black text-[#FCF9EC] flex flex-col items-center overflow-hidden">
+
+      {/* Top-left back-to-home button (no background or border) */}
+      <a
+        href="/"
+        className="absolute top-6 left-6 z-30 inline-flex items-center gap-2 px-4 py-2 text-[#C9B5E0] text-xs font-bold uppercase tracking-widest hover:text-[#FCF9EC] transition-colors duration-200"
+      >
+        ← Home
+      </a>
+
+      {/* Far-point link to outer space */}
+      <div
+        onClick={handleOuterSpaceClick}
+        className="absolute bottom-8 right-8 z-30 inline-flex items-center gap-2 px-4 py-2 text-[#C9B5E0] text-xs font-bold uppercase tracking-widest hover:text-[#FCF9EC] transition-colors duration-200 cursor-pointer"
+      >
+        Outer Space →
+      </div>
 
       {/* Fullscreen Hyperspeed Transition Overlay */}
       {warpTarget && (
@@ -134,7 +157,7 @@ const ExplorePage = () => {
           />
           <div className="warp-hud">
             <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-[0.14em] uppercase bg-[#00105B]/85 text-[#C9B5E0] border border-[#6061B6] rounded-full">
-              Hyperspeed Engaged
+              Hold tightly..
             </span>
             <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] text-[#FCF9EC] drop-shadow-[0_0_25px_rgba(96,97,182,0.9)]">
               Warping to {warpTarget.label}...
@@ -152,11 +175,13 @@ const ExplorePage = () => {
           Solar System Orbit
         </span>
         <h1 className="text-[clamp(1.8rem,4vw,3rem)] font-extrabold my-2 mb-2 md:mb-4 text-[#FCF9EC] tracking-tight leading-tight">
-          Earth Orbit
+          Journey Beyond Earth
         </h1>
         <p className="text-[0.9rem] md:text-[1.05rem] leading-[1.5] md:leading-[1.6] text-[#C9B5E0] mb-2 md:mb-6 px-2">
-          Earth at the center, with the Moon orbiting near and Mars orbiting far,
-          set against a deep space black background.
+          Earth at the center — the Moon dancing near, Mars drifting far — set against a deep space black void.
+        </p>
+        <p className="text-[0.75rem] md:text-[0.85rem] text-[#C9B5E0]/70 tracking-widest uppercase mb-2 px-2">
+          Tap the Moon to explore the Moon · Tap Mars to explore Mars
         </p>
       </header>
 

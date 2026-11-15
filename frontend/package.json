@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@hugeicons/core-free-icons": "^4.4.0",
+    "@hugeicons/react": "^1.1.10",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.3.5",
@@ -19,6 +21,7 @@
     "framer-motion": "^14.14.0",
     "gsap": "^3.15.1",
     "lucide-react": "^1.72.0",
+    "motion": "^12.43.0",
     "ogl": "^1.0.11",
     "postprocessing": "^6.39.6",
     "react": "^19.3.1",
