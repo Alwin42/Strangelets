@@ -7,6 +7,9 @@ import RangerProgram from '../../components/moon/early-programs/ranger-program';
 import Surveyor from '../../components/moon/early-programs/Surveyor';
 import Apollo11 from '../../components/moon/apollo-program/apollo11';
 import Apollo12 from '../../components/moon/apollo-program/apollo12';
+import Apollo14 from '../../components/moon/apollo-program/apollo14';
+import Apollo15 from '../../components/moon/apollo-program/apollo15';
+
 const MoonExplore = () => {
   const navigate = useNavigate();
 
@@ -67,6 +70,8 @@ const MoonExplore = () => {
         <Surveyor /> 
         <Apollo11 />
         <Apollo12 />
+        <Apollo14 />
+        <Apollo15 />
       </section>
     </main>
   );
