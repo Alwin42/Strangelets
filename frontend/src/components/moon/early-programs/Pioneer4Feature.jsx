@@ -1,32 +1,5 @@
-import React, { Suspense, useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Center, Resize } from '@react-three/drei';
+import React from 'react';
 import { ScrollReveal } from '../../ui/ScrollReveal';
-
-// Space in filename must be URL-encoded as %20
-const MODEL_PATH = '/models/3D-moon-assets/Pioneer10.glb';
-
-// --- Rotating 3D Pioneer Model ---
-function PioneerModel({ autoRotate = true }) {
-  const ref = useRef();
-  const { scene } = useGLTF(MODEL_PATH);
-
-  useFrame((_, delta) => {
-    if (ref.current && autoRotate) {
-      ref.current.rotation.y += delta * 0.4;
-    }
-  });
-
-  return (
-    <group ref={ref}>
-      <Resize scale={2.5}>
-        <Center>
-          <primitive object={scene} />
-        </Center>
-      </Resize>
-    </group>
-  );
-}
 
 const MISSION_STATS = [
   { label: 'Weight', value: '13 lbs' },
@@ -39,23 +12,8 @@ const MISSION_STATS = [
 const Pioneer4Feature = ({
   imagePath = '/models/3D-moon-assets/Pioneer_4.jpg',
 }) => {
-  const sectionRef = useRef(null);
-  const [sectionVisible, setSectionVisible] = useState(false);
-
-  // Watches the Pioneer section — true while on screen, false once the next section arrives
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div ref={sectionRef} className="mb-24">
+    <div className="mb-24">
       {/* Featured Mission Title */}
       <ScrollReveal delay={0.1}>
         <div className="text-center mb-10">
@@ -75,10 +33,10 @@ const Pioneer4Feature = ({
             <img
               src={imagePath}
               alt="Pioneer 4 spacecraft"
-              className="w-[50%] h-[90%] object-cover transition-transform duration-700 hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-6 right-6 right-6">
+            <div className="absolute bottom-6 left-6 right-6">
               <p className="text-sm font-bold text-[#C9B5E0] tracking-wider uppercase">March 3, 1959</p>
               <p className="text-2xl font-extrabold text-[#FCF9EC] mt-1">Pioneer 4</p>
               <p className="text-sm text-[#C9B5E0]/90 mt-1">America's first spacecraft to escape Earth's gravity</p>
@@ -197,35 +155,8 @@ const Pioneer4Feature = ({
           </p>
         </ScrollReveal>
       </div>
-
-      {/* =====================================================
-          FLOATING 3D PIONEER MODEL
-          Visible only while the Pioneer section is on screen.
-          Fades + slides away when the next section arrives.
-          ===================================================== */}
-      <div
-            className={`fixed right-4 bottom-4 md:right-6 md:bottom-auto md:top-1/2 md:-translate-y-1/2 z-40 w-48 h-48 md:w-100 md:h-150 rounded-2xl overflow-hidden transition-all duration-700 ease-out ${
-              sectionVisible
-                ? 'opacity-100 translate-x-0 pointer-events-auto'
-                : 'opacity-0 translate-x-10 pointer-events-none'
-            }`}
-          >
-            <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]}>
-              <ambientLight intensity={1.2} />
-              <directionalLight position={[4, 6, 5]} intensity={2.5} color="#FCF9EC" />
-              <directionalLight position={[-4, -2, -5]} intensity={1} color="#6061B6" />
-              <Suspense fallback={null}>
-                <PioneerModel />
-              </Suspense>
-              <OrbitControls enableZoom={true} enablePan={false} rotateSpeed={0.6} />
-            </Canvas>
-            <span className="absolute bottom-2 left-0 right-0 text-center text-[10px] font-bold uppercase tracking-widest text-[#C9B5E0] pointer-events-none">
-              Pioneer 10
-            </span>
-          </div>
     </div>
   );
 };
 
-useGLTF.preload(MODEL_PATH);
 export default Pioneer4Feature;

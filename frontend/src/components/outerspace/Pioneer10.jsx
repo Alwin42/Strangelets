@@ -1,5 +1,31 @@
-import React from 'react';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, useGLTF, Center, Resize } from '@react-three/drei';
 import { ScrollReveal } from '../ui/ScrollReveal';
+
+const MODEL_PATH = '/models/3D-moon-assets/Pioneer10.glb';
+
+// --- Rotating 3D Pioneer Model ---
+function PioneerModel({ autoRotate = true }) {
+  const ref = useRef();
+  const { scene } = useGLTF(MODEL_PATH);
+
+  useFrame((_, delta) => {
+    if (ref.current && autoRotate) {
+      ref.current.rotation.y += delta * 0.4;
+    }
+  });
+
+  return (
+    <group ref={ref}>
+      <Resize scale={2.8}>
+        <Center>
+          <primitive object={scene} />
+        </Center>
+      </Resize>
+    </group>
+  );
+}
 
 const MISSION_STATS = [
   { label: 'Launch Date', value: 'Mar 2, 1972' },
@@ -15,8 +41,23 @@ const LEFT_BEHIND = [
 ];
 
 const Pioneer10 = ({ imagePath = '/Outerspace-spacecrafts/pioneer_10.webp' }) => {
+  const sectionRef = useRef(null);
+  const [sectionVisible, setSectionVisible] = useState(false);
+
+  // Watches the Pioneer 10 section — true while on screen, false once the next section arrives
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSectionVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="mb-24">
+    <div ref={sectionRef} className="mb-24">
       <ScrollReveal delay={0.1}>
         <div className="text-center mb-10">
           <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#6061B6]">
@@ -191,8 +232,35 @@ const Pioneer10 = ({ imagePath = '/Outerspace-spacecrafts/pioneer_10.webp' }) =>
           </div>
         </ScrollReveal>
       </div>
+
+      {/* =====================================================
+          FLOATING 3D PIONEER 10 MODEL
+          Visible only while the Pioneer 10 section is on screen.
+          Fades + slides away when the next section arrives.
+          ===================================================== */}
+      <div
+        className={`fixed right-4 bottom-4 md:right-6 md:bottom-auto md:top-1/2 md:-translate-y-1/2 z-40 w-48 h-48 md:w-96 md:h-96 rounded-2xl overflow-hidden  bg-transparent   transition-all duration-700 ease-out ${
+          sectionVisible
+            ? 'opacity-100 translate-x-0 pointer-events-auto'
+            : 'opacity-0 translate-x-10 pointer-events-none'
+        }`}
+      >
+        <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]}>
+          <ambientLight intensity={1.2} />
+          <directionalLight position={[4, 6, 5]} intensity={2.5} color="#FCF9EC" />
+          <directionalLight position={[-4, -2, -5]} intensity={1} color="#6061B6" />
+          <Suspense fallback={null}>
+            <PioneerModel />
+          </Suspense>
+          <OrbitControls enableZoom={true} enablePan={false} rotateSpeed={0.6} />
+        </Canvas>
+        <span className="absolute bottom-2 left-0 right-0 text-center text-[10px] font-bold uppercase tracking-widest text-[#C9B5E0] pointer-events-none">
+          Pioneer 10
+        </span>
+      </div>
     </div>
   );
 };
 
+useGLTF.preload(MODEL_PATH);
 export default Pioneer10;
