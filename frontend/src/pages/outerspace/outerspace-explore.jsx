@@ -4,7 +4,9 @@ import Pioneer10 from '../../components/outerspace/Pioneer10';
 import Pioneer11 from '../../components/outerspace/Pioneer11';
 import Voyager1 from '../../components/outerspace/Voyager-1';
 import Voyager2 from '../../components/outerspace/Voyager-2';
-
+import Kepler from '../../components/outerspace/kepler'
+import Mariner from '../../components/outerspace/Mariner'
+import Skylab from '../../components/outerspace/Skylab'
 const OuterSpaceExplore = () => {
   const navigate = useNavigate();
 
@@ -40,6 +42,9 @@ const OuterSpaceExplore = () => {
         <Pioneer11 />
         <Voyager1 />
         <Voyager2 />
+        <Kepler/>
+        <Mariner/>
+        <Skylab/>
       </div>
     </main>
   );
